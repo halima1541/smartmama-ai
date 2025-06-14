@@ -9,6 +9,11 @@ const AuthPage = () => {
   const { login, loading } = useAuth();
   const navigate = useNavigate();
 
+  const handleLogin = async () => {
+    console.log('Login button clicked');
+    await login();
+  };
+
   const features = [
     {
       icon: Heart,
@@ -70,9 +75,9 @@ const AuthPage = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 <Button 
-                  onClick={login}
+                  onClick={handleLogin}
                   disabled={loading}
-                  className="w-full h-12 gradient-bg hover:opacity-90 text-white font-semibold"
+                  className="w-full h-12 gradient-bg hover:opacity-90 text-white font-semibold transition-all duration-200"
                 >
                   {loading ? "Connecting..." : "Sign in with Internet Identity"}
                 </Button>

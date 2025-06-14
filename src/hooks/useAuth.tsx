@@ -22,6 +22,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Simulate checking for existing authentication
@@ -56,6 +57,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       
       setUser(mockUser);
       localStorage.setItem('smartmama-user', JSON.stringify(mockUser));
+      
+      // Navigate to dashboard after successful login
+      navigate('/dashboard');
     } catch (error) {
       console.error('Login failed:', error);
     } finally {
@@ -66,6 +70,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('smartmama-user');
+    navigate('/');
   };
 
   return (

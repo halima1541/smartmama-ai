@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import DashboardLayout from "./DashboardLayout";
 import Dashboard from "./Dashboard";
@@ -28,14 +28,17 @@ const MainApp = () => {
     return 'dashboard';
   };
 
-  const [activeSection, setActiveSection] = useState(getActiveSectionFromPath());
+  const activeSection = getActiveSectionFromPath();
 
-  const handleNavigate = (section: string) => {
-    setActiveSection(section);
-    navigate(`/dashboard/${section}`);
-  };
+  // Redirect to dashboard if on /dashboard without a specific section
+  useEffect(() => {
+    if (location.pathname === '/dashboard' || location.pathname === '/dashboard/') {
+      navigate('/dashboard/dashboard', { replace: true });
+    }
+  }, [location.pathname, navigate]);
 
   const renderContent = () => {
+    console.log('Rendering content for section:', activeSection);
     switch (activeSection) {
       case "dashboard":
         return <Dashboard />;
