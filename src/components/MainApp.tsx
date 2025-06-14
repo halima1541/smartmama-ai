@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import DashboardLayout from "./DashboardLayout";
 import Dashboard from "./Dashboard";
 import WeeklyCheckIn from "./WeeklyCheckIn";
@@ -9,10 +10,30 @@ import Nutrition from "./Nutrition";
 import AIAssistant from "./AIAssistant";
 import Progress from "./Progress";
 import Settings from "./Settings";
-import { AppSidebar } from "./AppSidebar";
 
 const MainApp = () => {
-  const [activeSection, setActiveSection] = useState("dashboard");
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Extract the active section from the URL path
+  const getActiveSectionFromPath = () => {
+    const path = location.pathname;
+    if (path.includes('/checkin')) return 'checkin';
+    if (path.includes('/alerts')) return 'alerts';
+    if (path.includes('/medications')) return 'medications';
+    if (path.includes('/nutrition')) return 'nutrition';
+    if (path.includes('/assistant')) return 'assistant';
+    if (path.includes('/progress')) return 'progress';
+    if (path.includes('/settings')) return 'settings';
+    return 'dashboard';
+  };
+
+  const [activeSection, setActiveSection] = useState(getActiveSectionFromPath());
+
+  const handleNavigate = (section: string) => {
+    setActiveSection(section);
+    navigate(`/dashboard/${section}`);
+  };
 
   const renderContent = () => {
     switch (activeSection) {
@@ -40,7 +61,7 @@ const MainApp = () => {
   return (
     <DashboardLayout>
       <div className="hidden">
-        <AppSidebar onNavigate={setActiveSection} />
+        <div onNavigate={handleNavigate} />
       </div>
       {renderContent()}
     </DashboardLayout>

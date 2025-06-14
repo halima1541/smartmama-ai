@@ -11,48 +11,49 @@ import {
   SidebarMenuItem,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const menuItems = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/dashboard/dashboard",
     icon: Home,
     id: "dashboard"
   },
   {
     title: "Weekly Check-in",
-    url: "#",
+    url: "/dashboard/checkin",
     icon: Calendar,
     id: "checkin"
   },
   {
     title: "Risk Alerts",
-    url: "#",
+    url: "/dashboard/alerts",
     icon: AlertTriangle,
     id: "alerts"
   },
   {
     title: "Medications",
-    url: "#",
+    url: "/dashboard/medications",
     icon: Pill,
     id: "medications"
   },
   {
     title: "Nutrition",
-    url: "#",
+    url: "/dashboard/nutrition",
     icon: Apple,
     id: "nutrition"
   },
   {
     title: "AI Assistant",
-    url: "#",
+    url: "/dashboard/assistant",
     icon: MessageSquare,
     id: "assistant"
   },
   {
     title: "Progress",
-    url: "#",
+    url: "/dashboard/progress",
     icon: BarChart3,
     id: "progress"
   },
@@ -63,11 +64,29 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ onNavigate }: AppSidebarProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [activeItem, setActiveItem] = useState("dashboard");
 
-  const handleItemClick = (id: string) => {
-    setActiveItem(id);
-    onNavigate?.(id);
+  useEffect(() => {
+    // Update active item based on current route
+    const currentPath = location.pathname;
+    const activeSection = menuItems.find(item => currentPath.includes(item.id));
+    if (activeSection) {
+      setActiveItem(activeSection.id);
+    }
+  }, [location.pathname]);
+
+  const handleItemClick = (item: typeof menuItems[0]) => {
+    setActiveItem(item.id);
+    navigate(item.url);
+    onNavigate?.(item.id);
+  };
+
+  const handleSettingsClick = () => {
+    setActiveItem("settings");
+    navigate("/dashboard/settings");
+    onNavigate?.("settings");
   };
 
   return (
@@ -78,7 +97,7 @@ export function AppSidebar({ onNavigate }: AppSidebarProps) {
             <Heart className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-gray-900">HAWI-AI</h2>
+            <h2 className="text-lg font-bold text-gray-900">SMARTMAMA-AI</h2>
             <p className="text-xs text-gray-500">Maternal Health Assistant</p>
           </div>
         </div>
@@ -94,12 +113,12 @@ export function AppSidebar({ onNavigate }: AppSidebarProps) {
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
-                    onClick={() => handleItemClick(item.id)}
+                    onClick={() => handleItemClick(item)}
                     className={`${
                       activeItem === item.id 
                         ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600' 
                         : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700'
-                    } transition-colors`}
+                    } transition-colors cursor-pointer`}
                   >
                     <item.icon className="w-5 h-5" />
                     <span className="font-medium">{item.title}</span>
@@ -118,12 +137,12 @@ export function AppSidebar({ onNavigate }: AppSidebarProps) {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton 
-                  onClick={() => handleItemClick("settings")}
+                  onClick={handleSettingsClick}
                   className={`${
                     activeItem === "settings" 
                       ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600' 
                       : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700'
-                  } transition-colors`}
+                  } transition-colors cursor-pointer`}
                 >
                   <Settings className="w-5 h-5" />
                   <span className="font-medium">Settings</span>

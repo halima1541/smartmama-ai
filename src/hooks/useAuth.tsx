@@ -1,5 +1,6 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface User {
   id: string;
@@ -28,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(true);
       try {
         // This would normally check Internet Identity
-        const savedUser = localStorage.getItem('hawi-user');
+        const savedUser = localStorage.getItem('smartmama-user');
         if (savedUser) {
           setUser(JSON.parse(savedUser));
         }
@@ -54,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       };
       
       setUser(mockUser);
-      localStorage.setItem('hawi-user', JSON.stringify(mockUser));
+      localStorage.setItem('smartmama-user', JSON.stringify(mockUser));
     } catch (error) {
       console.error('Login failed:', error);
     } finally {
@@ -64,7 +65,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('hawi-user');
+    localStorage.removeItem('smartmama-user');
   };
 
   return (

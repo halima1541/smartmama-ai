@@ -4,6 +4,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { LogOut, User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -11,6 +12,12 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <SidebarProvider>
@@ -22,7 +29,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <SidebarTrigger className="text-blue-600" />
-                <h1 className="text-2xl font-bold text-gray-900">HAWI-AI Dashboard</h1>
+                <h1 className="text-2xl font-bold text-gray-900">SMARTMAMA-AI Dashboard</h1>
               </div>
               
               <div className="flex items-center space-x-4">
@@ -33,7 +40,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                   <span>{user?.name}</span>
                 </div>
                 <Button 
-                  onClick={logout}
+                  onClick={handleLogout}
                   variant="outline"
                   size="sm"
                   className="text-gray-600 hover:text-gray-900"
