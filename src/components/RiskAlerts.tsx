@@ -24,9 +24,9 @@ const RiskAlerts = () => {
       description: "You've gained 3 pounds in the past week, which is above the recommended rate.",
       action: "Review your diet and exercise routine",
       icon: Info,
-      color: "text-yellow-500",
-      bgColor: "bg-yellow-50",
-      borderColor: "border-yellow-200"
+      color: "text-blue-500",
+      bgColor: "bg-blue-50",
+      borderColor: "border-blue-200"
     },
     {
       id: 3,
@@ -61,7 +61,7 @@ const RiskAlerts = () => {
       {/* Header */}
       <div className="bg-white rounded-lg p-6 card-shadow">
         <div className="flex items-center space-x-3">
-          <AlertTriangle className="w-6 h-6 text-yellow-500" />
+          <AlertTriangle className="w-6 h-6 text-blue-500" />
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Risk Alerts & Notifications</h2>
             <p className="text-gray-600">Stay informed about important health indicators</p>
