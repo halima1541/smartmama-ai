@@ -60,9 +60,6 @@ const MainApp = () => {
 
   return (
     <DashboardLayout>
-      <div className="hidden">
-        <div onNavigate={handleNavigate} />
-      </div>
       {renderContent()}
     </DashboardLayout>
   );
