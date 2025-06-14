@@ -112,7 +112,7 @@ const LandingPage = () => {
             <Button 
               variant="outline"
               size="lg"
-              className="text-blue-600 border-blue-200 hover:bg-blue-50 text-lg px-8 py-3"
+              className="text-blue-600 border-blue-300 hover:bg-blue-50 text-lg px-8 py-3"
             >
               Learn More
             </Button>
